@@ -39,7 +39,10 @@ reset_handler:
 	reset_bss_loop:
 		CMP r1, r2
 		BCC reset_bss
-		B main
+		BL main
+	
+	default_loop:
+		B default_loop
 .size reset_handler, .-reset_handler
 
 .section .vector_table, "a", %progbits

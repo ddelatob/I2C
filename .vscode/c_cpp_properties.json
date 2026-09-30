@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "C:/Toolchains/CMSIS_6/CMSIS/Core/Include",
-                "C:/Toolchains/cmsis-device-l4/Include"
+                "C:/Toolchains/cmsis-device-l4/Include",
+                "C:/Toolchains/Unity-2.7.0/src"
             ],
             "defines": [
                 "_DEBUG",
