@@ -9,7 +9,7 @@
  * 
  * @pre Analog and/or noise filters must be configured.
  */
-void ToggleI2C1PeripheralEnable(uint8_t PEbit) {
+void toggleI2C1PeripheralEnable(uint8_t PEbit) {
     I2C1->CR1 &= ~(0x1UL << 0U);
     I2C1->CR1 |= (PEbit << 0U);
 }
@@ -23,7 +23,7 @@ void ToggleI2C1PeripheralEnable(uint8_t PEbit) {
  * 
  * @pre 
  */
-void ConfigureDigitalNoiseFilter(uint8_t minKerCkPeriods) {
+void configureDigitalNoiseFilter(uint8_t minKerCkPeriods) {
     I2C1->CR1 &= ~(0xFUL << 8U);
     I2C1->CR1 |= (minKerCkPeriods << 8U);
 }
