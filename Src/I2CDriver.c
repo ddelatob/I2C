@@ -47,8 +47,8 @@ uint32_t getTFilterNanoSec()
     uint8_t digitalFilterTime = I2C1->CR1 & (0xFUL << 8U);
     uint8_t analogFilterTime = 50UL;
 }
-
-float getMSIMHz()
+//fix
+uint8_t getMSIMHz()
 {
     uint8_t range = RCC->CR & (0xFUL << 4U);
     switch (range)
@@ -64,7 +64,7 @@ float getMSIMHz()
     case 0x4UL:
         return 1U;
     case 0x5UL:
-        return 1U;
+        return 2U;
     case 0x6UL:
         return 4U;
     case 0x7UL:
@@ -90,14 +90,16 @@ uint8_t getSysClkNanoSec()
     case 0x0UL:
         //HSI16
         clkSpdMHz = 0;
+        break;
     case 0x1UL:
         clkSpdMHz = getMSIMHz();
         break;
     case 0x2UL:
         //HSE
+        clkSpdMHz = 0;
         break;
     case 0x3UL:
-        //PLL
+        clkSpdMHz = 0;
         break;
     }
 }
