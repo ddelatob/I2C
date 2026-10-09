@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "stm32l432xx.h"
+#include "I2CDriver.h"
 /**
  * @brief Toggles I2C1 peripheral enable bit.
  * 
@@ -26,4 +27,9 @@ void toggleI2C1PeripheralEnable(uint8_t PEbit) {
 void configureDigitalNoiseFilter(uint8_t minKerCkPeriods) {
     I2C1->CR1 &= ~(0xFUL << 8U);
     I2C1->CR1 |= (minKerCkPeriods << 8U);
+}
+void configureAnalogNoiseFilter(uint8_t ANFOFFBit)
+{
+    I2C1->CR1 &= ~(0x1UL << 12U);
+    I2C1->CR1 &= ~(ANFOFFBit << 12U);
 }
