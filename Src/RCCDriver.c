@@ -34,8 +34,7 @@ void setMSIRANGE(uint8_t setting)
     uint8_t setting = 0;
     if (RCC->CR & (0x1UL << 3U))
     {
-        RCC->CR &= ~(0xFUL << 4U);
-        RCC->CR |= (setting << 4U);
+        RCC->CR = (RCC->CR & ~(0xFUL << 4U) | (setting << 4U));
     }
 }
 
