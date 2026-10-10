@@ -47,64 +47,13 @@ uint32_t getTFilterNanoSec()
     uint8_t digitalFilterTime = I2C1->CR1 & (0xFUL << 8U);
     uint8_t analogFilterTime = 50UL;
 }
-//fix
-uint8_t getMSIMHz()
-{
-    uint8_t range = RCC->CR & (0xFUL << 4U);
-    switch (range)
-    {
-    case 0x0UL:
-        return 1U;
-    case 0x1UL:
-        return 1U;
-    case 0x2UL:
-        return 1U;
-    case 0x3UL:
-        return 1U;
-    case 0x4UL:
-        return 1U;
-    case 0x5UL:
-        return 2U;
-    case 0x6UL:
-        return 4U;
-    case 0x7UL:
-        return 8U;
-    case 0x8UL:
-        return 16U;
-    case 0x9UL:
-        return 24U;
-    case 0xAUL:
-        return 32U;
-    case 0xBUL:
-        return 48U;
-    }
-}
 
-uint8_t getSysClkNanoSec() 
-{
-    // Need to complete other clocks.
-    uint8_t SW = RCC->CFGR & (0x3UL << 0U);
-    uint8_t clkSpdMHz = 0U;
-    switch (SW)
-    {
-    case 0x0UL:
-        //HSI16
-        clkSpdMHz = 0;
-        break;
-    case 0x1UL:
-        clkSpdMHz = getMSIMHz();
-        break;
-    case 0x2UL:
-        //HSE
-        clkSpdMHz = 0;
-        break;
-    case 0x3UL:
-        clkSpdMHz = 0;
-        break;
-    }
-}
+
+
 
 uint8_t getTI2CClkNanoSec()
 {
     ;
 }
+
+
