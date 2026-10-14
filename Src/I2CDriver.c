@@ -65,5 +65,36 @@ uint8_t getTI2CClkNanoSec()
         uint8_t clkSelction;
     }
 }
+/**
+ * @brief SCL high period (controller mode).
+ * 
+ * This field is used to generate the SCL high
+ * period in controller mode. t_SCLH=(SCLH + 1)
+ * x t_PRESC. SCLH is also used to generate
+ * t_SU:STO and t_HD:STA timing.
+ * 
+ * @param period is the value assigned to
+ * SCLH[7:0].
+ * 
+ */
+void setSCLHighPeriod(uint8_t period)
+{
+    uint8_t 
+    I2C1->TIMINGR = 
+}
+/**
+ * @brief SCL LOW period (controller mode).
+ * 
+ * This field is used to generate the SCL LOW
+ * period in controller mode. t_SCLl=(SCLl + 1)
+ * x t_PRESC. SCLL is also used to generate
+ * t_BUF and t_STU:STA timings.
+ * 
+ * @param period is the value assigned to
+ * SCLH[7:0].
+ * 
+ */
+void setSCLLowPeriod(uint8_t period)
+{
 
-
+}
