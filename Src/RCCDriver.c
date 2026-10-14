@@ -3,18 +3,40 @@
 #include "stm32l432xx.h"
 #include "pins.h"
 
+/**
+ * @brief enables or disables I2C peripheral 
+ * clocks.
+ * 
+ * @param I2CNum the number of the I2C
+ * peripheral.
+ * @param enableBit 1 - enable, 0 - disable.
+ */
 void enableAPB1I2CClk(uint8_t I2CNum, uint8_t enableBit) {
     uint8_t offset = 20U;
     RCC->APB1ENR1 &= ~(0x3UL << (offset + I2CNum));
     RCC->APB1ENR1 |= (enableBit << (offset + I2CNum));
 }
 /**
+ * @brief enables or disables GPIO AHB2 
+ * peripheral clocks.
+ * 
+ * @param GPIOPort the capitalized port
+ * letter.
+ * @param enableBit 1 - enable, 0 - disable.
+ */
+void enableAHB2GPIOCLK(unsigned char GPIOPort, uint8_t enableBit)
+{
+    uint8_t shift = (GPIOPort <= 'E') ? GPIOPort - 65U : 7U;
+    uint32_t mask = (0x1UL << shift);
+    RCC->AHB2ENR = (RCC->AHB2ENR & ~mask);
+}
+/**
  * @brief Allows setting of clock range with MSIRANGE[3:0] in RCC_CSR register or RCC_CR register.
- * 
+ *
  * Write 0 has no effect, MSIRGSEL at 0 after standby or reset.
- * 
+ *
  * @param bitState 0 MSI range provided by RCC_CSR register, 1 MSI range provided by RCC_CR register.
- * 
+ *
  */
 void setMSIRGSEL(uint8_t bitState)
 {
@@ -36,6 +58,10 @@ void setMSIRANGE(uint8_t setting)
     {
         RCC->CR = (RCC->CR & ~(0xFUL << 4U) | (setting << 4U));
     }
+}
+
+uint8_t MHzToNanoSec(uint8_t MHz) {
+
 }
 
 uint8_t getSysClkNanoSec(void) 

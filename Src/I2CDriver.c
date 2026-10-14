@@ -31,12 +31,12 @@ void configureDigitalNoiseFilter(uint8_t minKerCkPeriods) {
  * 
  * Filters spikes that are less than 50ns.
  * 
- * @param ANFOFFBit is 1 to turn on analog filter and 0 to turn it off.
+ * @param ANFOFFBit is 1 to turn off analog filter and 0 to turn it on.
  */
 void configureAnalogNoiseFilter(uint8_t ANFOFFBit)
 {
-    I2C1->CR1 &= ~(0x1UL << 12U);
-    I2C1->CR1 |= (ANFOFFBit << 12U);
+    uint32_t mask = 0x1UL << 12U;
+    I2C1->CR1 = (RCC->AHB1ENR & ~mask) | (ANFOFFBit << 12U);
 }
 
 
@@ -44,8 +44,13 @@ void configureAnalogNoiseFilter(uint8_t ANFOFFBit)
 uint32_t getTFilterNanoSec()
 {
 
-    uint8_t digitalFilterTime = I2C1->CR1 & (0xFUL << 8U);
-    uint8_t analogFilterTime = 50UL;
+    uint8_t digitalFilterPeriods = I2C1->CR1 & (0xFUL << 8U);
+
+    uint8_t digitalFilterTime = digitalFilterPeriods * 0;
+
+    uint32_t analogFilterSelection = (I2C1->CR1 & (0x1UL << 12U));
+
+    uint8_t analogFilterTime = (50UL & ~analogFilterSelection) | (50UL & analogFilterSelection);
     return analogFilterTime + digitalFilterTime;
 }
 
