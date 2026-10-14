@@ -46,6 +46,7 @@ uint32_t getTFilterNanoSec()
 
     uint8_t digitalFilterTime = I2C1->CR1 & (0xFUL << 8U);
     uint8_t analogFilterTime = 50UL;
+    return analogFilterTime + digitalFilterTime;
 }
 
 
@@ -53,7 +54,11 @@ uint32_t getTFilterNanoSec()
 
 uint8_t getTI2CClkNanoSec()
 {
-    ;
+    if(/*using sysclk*/1) {
+
+    } else {
+        uint8_t clkSelction;
+    }
 }
 
 

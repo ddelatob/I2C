@@ -38,7 +38,7 @@ void setMSIRANGE(uint8_t setting)
     }
 }
 
-uint8_t getSysClkNanoSec() 
+uint8_t getSysClkNanoSec(void) 
 {
     // Need to complete other clocks.
     uint8_t SW = RCC->CFGR & (0x3UL << 0U);
@@ -64,7 +64,7 @@ uint8_t getSysClkNanoSec()
 }
 
 //fix
-uint8_t getMSIMHz()
+uint8_t getMSIMHz(void)
 {
     uint8_t range = RCC->CR & (0xFUL << 4U);
     switch (range)
@@ -94,4 +94,30 @@ uint8_t getMSIMHz()
     case 0xBUL:
         return 48U;
     }
+}
+
+uint8_t getI2CLKSpeed(void)
+{
+    uint8_t selection = RCC->CCIPR & (0x3UL);
+    switch (selection)
+    {
+    case 0x0UL:
+        //PCLK calculation
+        break;
+    case 0x1UL:
+        return getSysClkNanoSec();
+        break;
+    case 0x2UL:
+        //HSI16
+        break;
+    }
+    return 0;
+}
+/**
+ * @brief selects PCLK, SYSCLK, or HSI16 as the I2C1 clock source
+ * 
+ * @param selection 0 - PCLK, 1 - SYSCLK, 2 - HSI16
+ */
+void setI2C1ClockSource(uint8_t selection) {
+    RCC->CCIPR = ((RCC->CCIPR & ~(0x3UL << 12U)) | (selection << 12U));
 }
