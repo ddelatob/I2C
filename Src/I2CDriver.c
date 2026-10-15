@@ -73,14 +73,15 @@ uint8_t getTI2CClkNanoSec()
  * x t_PRESC. SCLH is also used to generate
  * t_SU:STO and t_HD:STA timing.
  * 
- * @param period is the value assigned to
+ * @param period is the value written to
  * SCLH[7:0].
  * 
  */
 void setSCLHighPeriod(uint8_t period)
 {
-    uint8_t 
-    I2C1->TIMINGR = 
+    uint8_t shift = 8U;
+    uint32_t mask = 0xFFUL << shift;
+    I2C1->TIMINGR = (I2C1->TIMINGR & ~mask) | (period << shift);
 }
 /**
  * @brief SCL LOW period (controller mode).
@@ -90,11 +91,45 @@ void setSCLHighPeriod(uint8_t period)
  * x t_PRESC. SCLL is also used to generate
  * t_BUF and t_STU:STA timings.
  * 
- * @param period is the value assigned to
- * SCLH[7:0].
+ * @param period is the value written to
+ * SCLL[7:0].
  * 
  */
 void setSCLLowPeriod(uint8_t period)
 {
+    uint8_t shift = 0U;
+    uint32_t mask = 0xFFUL << shift;
+    I2C1->TIMINGR = (I2C1->TIMINGR & ~mask) | (period << shift);
+}
+/**
+ * @brief sets timing prescaler
+ * 
+ * Timing prescaler is used to prescale I2CCLK to generate the clock period 
+ * t_PRESC used for data setup and hold counters, and for SCL high and low 
+ * level counters.
+ * 
+ * @param presc is the value written to PRESC[3:0].
+ */
+void setTimingPrescaler(uint8_t presc)
+{
+    uint8_t shift = 28U;
+    uint32_t mask = 0xFU << shift;
+    I2C1->TIMINGR = (I2C1->TIMINGR & ~mask) | (presc << shift);
+}
 
+/**
+ * 
+ */
+void setSetupTime(uint8_t scldel)
+{
+    uint8_t shift = 20U;
+    uint32_t mask = 0xFU << shift;
+    I2C1->TIMINGR = (I2C1->TIMINGR & ~mask) | (scldel << shift);
+}
+
+void setHoldTime(uint8_t sdadel)
+{
+    uint8_t shift = 16U;
+    uint32_t mask = 0xFU << shift;
+    I2C1->TIMINGR = (I2C1->TIMINGR & ~mask) | (sdadel << shift);
 }

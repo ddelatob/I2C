@@ -8,3 +8,6 @@ uint32_t getTFilterNanoSec(void);
 uint8_t getTI2CClkNanoSec(void);
 void setSCLHighPeriod(uint8_t period);
 void setSCLLowPeriod(uint8_t period);
+void setTimingPrescaler(uint8_t presc);
+void setSetupTime(uint8_t scldel);
+void setHoldTime(uint8_t sdadel);
